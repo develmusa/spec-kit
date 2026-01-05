@@ -75,7 +75,32 @@ To upgrade Specify, see the [Upgrade Guide](./docs/upgrade.md) for detailed inst
 uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git
 ```
 
-#### Option 2: One-time Usage
+#### Option 2: Local Development Installation (Editable Mode)
+
+For contributors or those testing local changes:
+
+```bash
+# Clone the repository
+git clone https://github.com/github/spec-kit.git
+cd spec-kit
+
+# Install in editable mode
+uv tool install --editable .
+
+# Or force reinstall if already installed
+uv tool install --editable . --force
+```
+
+**Benefits of editable installation:**
+
+- Changes to templates/commands are reflected immediately
+- Test local modifications before contributing
+- Same `specify` command in PATH as production version
+- Easy to switch back: `uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git`
+
+**Note:** Template changes (`.md` files) take effect immediately. Python code changes require reinstalling with `uv tool install --editable . --force`.
+
+#### Option 3: One-time Usage
 
 Run directly without installing:
 
@@ -744,6 +769,125 @@ git config --global credential.helper manager
 echo "Cleaning up..."
 rm gcm-linux_amd64.2.6.1.deb
 ```
+
+## 🛠️ Local Development
+
+### Setting Up Your Development Environment
+
+If you want to contribute to Spec Kit or test local changes:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/github/spec-kit.git
+cd spec-kit
+
+# 2. Install in editable mode
+uv tool install --editable .
+```
+
+### Making Changes
+
+#### Template Changes (Immediate Effect)
+
+Changes to templates and commands are reflected immediately in new projects:
+
+```bash
+# Edit templates
+vim templates/commands/specify.md
+vim templates/business/ideation-template.md
+
+# Test by creating a new project
+cd /tmp
+specify init test-project --ai claude
+
+# Your changes will be in the new project
+ls test-project/.specify/templates/
+```
+
+**No reinstall needed** - templates are copied when you run `specify init`.
+
+#### Python Code Changes (Requires Reinstall)
+
+If you modify the CLI code (`src/specify_cli/__init__.py`):
+
+```bash
+# Make your changes
+vim src/specify_cli/__init__.py
+
+# Reinstall to pick up changes
+uv tool install --editable . --force
+
+# Test the changes
+specify check
+specify init test-project
+```
+
+### Testing Your Changes
+
+```bash
+# Run the CLI with your local changes
+specify init my-test-project --ai claude
+
+# Check version (should show your local version)
+specify version
+
+# Test specific functionality
+specify check
+```
+
+### Switching Between Local and Production
+
+```bash
+# Use your local development version
+uv tool install --editable . --force
+
+# Switch back to production version
+uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git
+
+# Check which version is active
+uv tool list
+specify version
+```
+
+### Running Without Installing
+
+For quick tests without installation:
+
+```bash
+# Run directly with Python
+python -m specify_cli init test-project --ai claude
+
+# Or use uvx with local path
+uvx --from . specify init test-project
+```
+
+### Project Structure
+
+```
+spec-kit/
+├── src/specify_cli/          # CLI Python code
+│   └── __init__.py           # Main CLI implementation
+├── templates/                # Template files copied to projects
+│   ├── business/            # Business planning templates
+│   ├── commands/            # Slash command definitions
+│   ├── *-template.md        # Spec/plan/task templates
+│   └── vscode-settings.json
+├── scripts/                 # Helper scripts
+│   ├── bash/               # Bash scripts
+│   └── powershell/         # PowerShell scripts
+├── pyproject.toml          # Package configuration
+└── README.md               # This file
+```
+
+### Contributing Guidelines
+
+1. **Test your changes** - Create test projects and verify functionality
+2. **Update CHANGELOG.md** - Document your changes
+3. **Bump version** - Update `pyproject.toml` if needed
+4. **Follow existing patterns** - Match the style of existing templates/commands
+5. **Update documentation** - Keep README.md current
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed contribution guidelines.
 
 ## 👥 Maintainers
 
