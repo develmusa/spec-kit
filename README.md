@@ -835,6 +835,56 @@ specify version
 specify check
 ```
 
+### Updating Existing Projects with Local Changes
+
+When developing spec-kit locally, you may want to update existing projects to test your changes:
+
+```bash
+# Navigate to your existing project
+cd /path/to/your/project
+
+# Update the project with latest templates from your local installation
+specify init --here --force --ai <your-agent>
+```
+
+**What gets updated:**
+
+✅ **Safe to update** (your work is preserved):
+- Slash command files (`.claude/commands/`, `.opencode/command/`, etc.)
+- Scripts in `.specify/scripts/`
+- Templates in `.specify/templates/`
+- Your `specs/` directory is **NEVER touched** - completely safe
+
+⚠️ **May be overwritten** (back up first):
+- `.specify/memory/constitution.md` - if you customized it
+- Custom template modifications
+
+**Recommended workflow:**
+
+```bash
+# 1. Back up customizations
+cp .specify/memory/constitution.md .specify/memory/constitution-backup.md
+
+# 2. Update project files
+specify init --here --force --ai opencode
+
+# 3. Restore customizations
+mv .specify/memory/constitution-backup.md .specify/memory/constitution.md
+
+# 4. Verify changes
+ls -la .opencode/command/  # Check command files
+cat .specify/templates/spec-template.md  # Check templates
+```
+
+**When you need to update:**
+
+- ✅ When you modify slash command templates
+- ✅ When you change script files
+- ✅ When you update template files
+- ❌ Not needed for Python CLI code changes (those take effect after reinstall)
+
+See the [Upgrade Guide](./docs/upgrade.md) for more details on the update process.
+
 ### Switching Between Local and Production
 
 ```bash
