@@ -90,7 +90,102 @@ uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME
 - Better tool management with `uv tool list`, `uv tool upgrade`, `uv tool uninstall`
 - Cleaner shell configuration
 
-### 2. Establish project principles
+### 2. Choose Your Path
+
+Spec Kit supports two complementary workflows:
+
+#### Path A: **Technical Projects** (Jump straight to building)
+
+If you already know what to build and have defined requirements, start here:
+
+- **`/speckit.constitution`** → Establish technical principles
+- **`/speckit.specify`** → Define feature requirements
+- **`/speckit.plan`** → Create implementation plan
+- **`/speckit.tasks`** → Break down into tasks
+- **`/speckit.implement`** → Build the feature
+
+#### Path B: **Business Ideas** (Validate first, then build)
+
+If you're starting with a business idea and want to validate it before building, start with the **Context-First Framework**:
+
+- **`/speckit.ideate`** → Validate idea with AI-generated personas and synthetic focus groups
+- **`/speckit.strategize`** → Create Lean Canvas and business strategy
+- **`/speckit.productize`** → Generate Product Requirements Document (PRD)
+- Then proceed to Path A for technical implementation
+
+**Path B** is ideal for:
+- Entrepreneurs validating business ideas
+- Product teams exploring new products
+- Anyone wanting to stress-test assumptions before coding
+
+**Path A** is ideal for:
+- Pure technical projects
+- Features for existing products
+- Projects with clear requirements
+
+### 3. (Path B) Business Planning Phase (Optional)
+
+**Skip to step 4 if you're doing Path A (technical projects only)**
+
+The Context-First Framework uses AI to validate business ideas through synthetic research:
+
+#### Step 1: Synthetic Validation
+
+```bash
+/speckit.ideate I want to build a mobile-first project management tool for construction foremen who manage field crews on job sites. They currently use text messages and paper checklists which are chaotic and time-consuming.
+```
+
+This command:
+- Generates 5 diverse user personas (power users, skeptics, budget-conscious, etc.)
+- Runs a synthetic focus group where AI embodies each persona
+- Discovers critical objections you haven't considered
+- Identifies must-have vs. nice-to-have features
+- Validates (or invalidates) your core assumptions
+
+**Output**: `.specify/business/01_ideation.md`
+
+#### Step 2: Business Strategy
+
+```bash
+/speckit.strategize
+```
+
+This command:
+- Creates a Lean Canvas from validated insights
+- Defines your System Context (Business Source of Truth)
+- Conducts premortem analysis (what could kill this business?)
+- Identifies go-to-market strategy
+- Documents critical assumptions to validate
+
+**Output**: `.specify/business/02_strategy.md`
+
+#### Step 3: Product Requirements
+
+```bash
+/speckit.productize
+```
+
+This command:
+- Translates business strategy into product features (PRD)
+- Defines user flows and acceptance criteria
+- Documents data model and API endpoints (tech-agnostic)
+- Generates agent-specific rules files (`.cursorrules`, `CLAUDE.md`, etc.)
+- Creates the "golden artifact" that guides all code generation
+
+**Output**: `.specify/business/03_product.md` + agent rules files
+
+**The Power of Agent Rules Files:**
+
+The agent rules file (`.cursorrules` for Cursor, `CLAUDE.md` for Claude, etc.) is your **compiled business plan**. It contains:
+- Business context from your Lean Canvas
+- Product requirements from your PRD
+- Design rules based on target users
+- Business logic constraints
+- Architecture requirements
+
+Every time the AI generates code, it checks this file first, ensuring all code aligns with your business goals.
+
+### 4. (Path A) Establish project principles
 
 Launch your AI assistant in the project directory. The `/speckit.*` commands are available in the assistant.
 
@@ -100,7 +195,9 @@ Use the **`/speckit.constitution`** command to create your project's governing p
 /speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements
 ```
 
-### 3. Create the spec
+**Note**: If you came from Path B (business planning), your agent rules files already contain business context. The constitution adds technical principles on top.
+
+### 5. Create the spec
 
 Use the **`/speckit.specify`** command to describe what you want to build. Focus on the **what** and **why**, not the tech stack.
 
@@ -108,7 +205,9 @@ Use the **`/speckit.specify`** command to describe what you want to build. Focus
 /speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
 ```
 
-### 4. Create a technical implementation plan
+**Note**: If you came from Path B, you can reference your PRD here or proceed directly to `/speckit.plan`.
+
+### 6. Create a technical implementation plan
 
 Use the **`/speckit.plan`** command to provide your tech stack and architecture choices.
 
@@ -116,7 +215,7 @@ Use the **`/speckit.plan`** command to provide your tech stack and architecture 
 /speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
 ```
 
-### 5. Break down into tasks
+### 7. Break down into tasks
 
 Use **`/speckit.tasks`** to create an actionable task list from your implementation plan.
 
@@ -124,7 +223,7 @@ Use **`/speckit.tasks`** to create an actionable task list from your implementat
 /speckit.tasks
 ```
 
-### 6. Execute implementation
+### 8. Execute implementation
 
 Use **`/speckit.implement`** to execute all tasks and build your feature according to the plan.
 
@@ -246,7 +345,17 @@ specify check
 
 After running `specify init`, your AI coding agent will have access to these slash commands for structured development:
 
-#### Core Commands
+#### Business Planning Commands (Context-First Framework)
+
+**Optional Phase 0** - Validate business ideas before building:
+
+| Command                | Description                                                                                   |
+| ---------------------- | --------------------------------------------------------------------------------------------- |
+| `/speckit.ideate`      | Run synthetic validation with AI personas and focus groups to stress-test business ideas      |
+| `/speckit.strategize`  | Create Lean Canvas and business strategy from validated insights                              |
+| `/speckit.productize`  | Generate Product Requirements Document (PRD) and agent rules files from business strategy     |
+
+#### Core Technical Commands
 
 Essential commands for the Spec-Driven Development workflow:
 
@@ -258,7 +367,7 @@ Essential commands for the Spec-Driven Development workflow:
 | `/speckit.tasks`        | Generate actionable task lists for implementation                        |
 | `/speckit.implement`    | Execute all tasks to build the feature according to the plan             |
 
-#### Optional Commands
+#### Optional Enhancement Commands
 
 Additional commands for enhanced quality and validation:
 

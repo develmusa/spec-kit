@@ -7,6 +7,49 @@ All notable changes to the Specify CLI and templates are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.23] - 2025-01-05
+
+### Added
+
+- **Context-First Framework (Business Planning Phase)**: New Phase 0 for validating business ideas before development
+  - `/speckit.ideate` - Synthetic validation using AI-generated personas and focus groups
+    - Creates 5 diverse user personas with varying tech levels and perspectives
+    - Runs multi-round synthetic focus groups to discover critical objections
+    - Identifies must-have vs. nice-to-have features through persona feedback
+    - Validates assumptions and documents insights
+    - Output: `.specify/business/01_ideation.md`
+  - `/speckit.strategize` - Business strategy and Lean Canvas generation
+    - Creates structured Lean Canvas from validated insights
+    - Defines System Context (Business Source of Truth)
+    - Conducts premortem analysis to identify failure scenarios
+    - Documents go-to-market strategy and critical assumptions
+    - Output: `.specify/business/02_strategy.md`
+  - `/speckit.productize` - Product Requirements Document (PRD) creation
+    - Translates business strategy into prioritized product features
+    - Defines technology-agnostic data models and API contracts
+    - Documents user flows and acceptance criteria
+    - Generates agent-specific rules files (`.cursorrules`, `CLAUDE.md`, etc.)
+    - Output: `.specify/business/03_product.md` + agent rules files
+- **Business Planning Templates**:
+  - `templates/business/ideation-template.md` - Synthetic validation artifact structure
+  - `templates/business/strategy-template.md` - Lean Canvas and business strategy template
+  - `templates/business/product-template.md` - PRD template with feature prioritization
+- **Agent Rules File Generation**: Auto-generates context files that compile business plan into AI agent instructions
+  - Cursor: `.cursorrules`
+  - Claude Code: `CLAUDE.md` or `.claude/CLAUDE.md`
+  - Other agents: Agent-specific equivalents
+- **Two-Path Workflow**:
+  - **Path A (Technical Projects)**: Jump straight to technical implementation (existing workflow)
+  - **Path B (Business Ideas)**: Validate business idea → Create strategy → Define product → Build
+- Updated README with comprehensive business planning workflow documentation
+- Added business planning commands to slash command reference
+
+### Changed
+
+- Reorganized "Get Started" section in README to clearly distinguish business vs. technical workflows
+- Updated slash commands table to include business planning commands as optional Phase 0
+- Enhanced step numbering in Get Started guide to accommodate both paths
+
 ## [0.0.22] - 2025-11-07
 
 - Support for VS Code/Copilot agents, and moving away from prompts to proper agents with hand-offs.
